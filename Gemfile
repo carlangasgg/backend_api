@@ -49,3 +49,10 @@ end
 
 
 gem "byebug", "~> 11.1", :groups => [:development, :test]
+
+gem 'rack-cors', require: 'rack/cors'
+
+gem 'devise'
+
+gem 'devise-jwt'
+
