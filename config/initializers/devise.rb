@@ -79,7 +79,7 @@ Devise.setup do |config|
   # enable this with :database unless you are using a custom strategy.
   # The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = [:database]
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -263,7 +263,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html, :turbo_stream]
+  config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -278,6 +278,7 @@ Devise.setup do |config|
   # change the failure app, you can configure them inside the config.warden block.
   #
   # config.warden do |manager|
+  #   manager.scope_defaults :user, store: false
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
@@ -312,13 +313,17 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
   # 
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
     jwt.dispatch_requests = [
-      ['POST', %r{^/api/v1/login$}]
+      ['POST', %r{users/sign_in}]
     ]
     jwt.revocation_requests = [
-      ['DELETE', %r{^/api/v1/logout$}]
+      ['DELETE', %r{users/sign_out}]
     ]
-    jwt.expiration_time = 30.minutes.to_i
+    jwt.expiration_time = 15.day.to_i
+  
+    jwt.request_formats = {
+      user: [:json]
+    }
   end
 end
