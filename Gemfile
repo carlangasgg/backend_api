@@ -56,3 +56,4 @@ gem 'devise'
 
 gem 'devise-jwt'
 
+gem 'devise_token_auth'

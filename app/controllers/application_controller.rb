@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
-  respond_to :json
+  include DeviseTokenAuth::Concerns::SetUserByToken
   include ActionController::MimeResponds 
+  respond_to :json
 end

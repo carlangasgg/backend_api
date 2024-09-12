@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-class Api::V1::Sessions::SessionsController < Devise::SessionsController
+class Api::V1::Sessions::SessionsController < DeviseTokenAuth::SessionsController
   before_action :configure_sign_in_params, only: [:create]
+
+  # def create
+  #   super
+  # end
 
   private
 
