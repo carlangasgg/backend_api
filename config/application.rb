@@ -29,6 +29,10 @@ module BackendApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # Disable session and cookies middleware for API-only apps
+    config.middleware.delete ActionDispatch::Cookies
+    config.middleware.delete ActionDispatch::Session::CookieStore
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
